@@ -55,7 +55,8 @@
                         </Private-Package>
                         <Import-Package>
                             !org.apache.bsf.*,
-                            *
+                            *,
+                            javax.management.openmbean
                         </Import-Package>
                     </instructions>
                 </configuration>
