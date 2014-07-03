@@ -1,10 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <groupId>org.sonatype.oss</groupId>
+        <artifactId>oss-parent</artifactId>
+        <version>9</version>
+    </parent>
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.adeptnet.prtg</groupId>
     <artifactId>prtg</artifactId>
     <version>2.0.2</version>
     <packaging>pom</packaging>
+    <name>prtg</name>
+    <description>PRTG Java Library</description>
     <url>https://github.com/AdeptInternet/prtg-java</url>
     <licenses>
         <license>
@@ -18,6 +25,14 @@
         <connection>scm:git:git@github.com:AdeptInternet/prtg-java.git</connection>
         <developerConnection>scm:git:git@github.com:AdeptInternet/prtg-java.git</developerConnection>
     </scm>
+    <developers>
+        <developer>
+            <id>TFyre</id>
+            <name>Francois Steyn</name>
+            <organization>Adept Internet (PTY) LTD</organization>
+            <organizationUrl>http://www.adeptnet.org</organizationUrl>
+        </developer>
+    </developers>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>1.7</maven.compiler.source>
