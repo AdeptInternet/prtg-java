@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<jaxb:bindings 
+    xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    xmlns:jaxb="http://java.sun.com/xml/ns/jaxb"
+    version="2.1">
+
+    <jaxb:bindings schemaLocation="prtg-1.0.xsd">
+            <jaxb:bindings node="//xs:complexType[@name='ChannelType']">
+                <jaxb:class ref="org.adeptnet.prtg.xml.ChannelType"/>
+            </jaxb:bindings>
+    </jaxb:bindings>
+</jaxb:bindings>

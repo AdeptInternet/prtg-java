@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<jaxb:bindings
+    xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:xjc="http://java.sun.com/xml/ns/jaxb/xjc"
+    xmlns:jaxb="http://java.sun.com/xml/ns/jaxb"
+    xmlns:basic="http://jaxb2-commons.dev.java.net/basic"
+    xmlns:ci="http://jaxb.dev.java.net/plugin/code-injector"
+    xmlns:copyable="http://jaxb2-commons.dev.java.net/basic/copyable"
+    xmlns:equals="http://jaxb2-commons.dev.java.net/basic/equals"
+    xmlns:hashCode="http://jaxb2-commons.dev.java.net/basic/hashCode"
+    xmlns:mergeable="http://jaxb2-commons.dev.java.net/basic/mergeable"
+    xmlns:toString="http://jaxb2-commons.dev.java.net/basic/toString"
+    xmlns:inheritance="http://jaxb2-commons.dev.java.net/basic/inheritance"
+    xmlns:annox="http://annox.dev.java.net"
+    xsi:schemaLocation="http://java.sun.com/xml/ns/jaxb ../jaxb/bindingschema_2_0.xsd"
+    jaxb:extensionBindingPrefixes="basic xjc ci annox"
+    version="2.1"
+>
+ 
+    <jaxb:globalBindings generateIsSetMethod="true" >
+        <jaxb:serializable uid="201401010001"/>
+    </jaxb:globalBindings>
+
+    <jaxb:bindings schemaLocation="prtg-config-1.0.xsd" >
+        <jaxb:schemaBindings >
+            <jaxb:package name="org.adeptnet.prtg.config.xml">
+            </jaxb:package>
+        </jaxb:schemaBindings>
+    </jaxb:bindings>
+    
+    <jaxb:bindings schemaLocation="prtg-config-1.0.xsd" node="//xs:complexType[@name='ConfigType']" >
+        <jaxb:class name="Config" />
+        <ci:code><![CDATA[       
+    public JMXConfigType getJMXByName(final String name) {
+        for (final JMXConfigType _jmx : getJmx()) {
+            if (name.equalsIgnoreCase(_jmx.getName())) return _jmx;            
+        }
+        return null;        
+    }
+    public SensorType getSensorByName(final String name) {
+        for (final SensorType _sensor : getSensors()) {
+            if (name.equalsIgnoreCase(_sensor.getName())) return _sensor;            
+        }
+        return null;        
+    }
+            ]]>
+        </ci:code>
+        <annox:annotate>
+            <annox:annotate annox:class="javax.xml.bind.annotation.XmlRootElement" name="config" namespace="urn:ietf:params:xml:ns:prtg-config-1.0"/>
+        </annox:annotate>
+        <jaxb:bindings node=".//xs:element[@name='sensor']" >
+            <jaxb:property name="Sensors" />
+        </jaxb:bindings>
+    </jaxb:bindings>
+    
+    <jaxb:bindings schemaLocation="prtg-config-1.0.xsd" node="//xs:complexType[@name='ChannelTypeAttribute']" >
+        <annox:annotate>
+            <annox:annotate annox:class="javax.xml.bind.annotation.XmlRootElement" name="attributeChannel" namespace="urn:ietf:params:xml:ns:prtg-config-1.0"/>
+        </annox:annotate>
+    </jaxb:bindings>
+    
+    <jaxb:bindings schemaLocation="prtg-config-1.0.xsd" node="//xs:complexType[@name='ChannelTypeStandard']" >
+        <ci:code><![CDATA[       
+    public Object getLookupValue(final Object value) {
+        if (!isSetResultLookups()) {
+            return value;
+        }
+        if (!resultLookups.isSetValues()) {
+            return value;
+        }
+        for (final ResultLookupType result : resultLookups.getValues()) {
+            if (!result.isSetName()) {
+                continue;
+            }
+            if (result.getName().equals(value)) {
+                return result.getValue();
+            }
+        }
+        if (resultLookups.isSetDefaultValue()) {
+            return resultLookups.getDefaultValue();
+        }
+        return value;
+    }
+            ]]>
+        </ci:code>
+    </jaxb:bindings>
+    
+    <jaxb:bindings schemaLocation="prtg-config-1.0.xsd" node="//xs:complexType[@name='ChannelTypeOperation']" >
+        <ci:code><![CDATA[       
+    public ChannelTypeOperation() {
+        this.jmxParameters = new JMXParameterType();
+    }
+            ]]>
+        </ci:code>
+        <annox:annotate>
+            <annox:annotate annox:class="javax.xml.bind.annotation.XmlRootElement" name="operationChannel" namespace="urn:ietf:params:xml:ns:prtg-config-1.0"/>
+        </annox:annotate>
+    </jaxb:bindings>
+    
+    <jaxb:bindings schemaLocation="prtg-config-1.0.xsd" node="//xs:complexType[@name='ChannelTypeScript']" >
+        <annox:annotate>
+            <annox:annotate annox:class="javax.xml.bind.annotation.XmlRootElement" name="scriptChannel" namespace="urn:ietf:params:xml:ns:prtg-config-1.0"/>
+        </annox:annotate>
+    </jaxb:bindings>
+    
+    <jaxb:bindings schemaLocation="prtg-config-1.0.xsd" node="//xs:complexType[@name='SensorType']" >
+        <jaxb:bindings  node="./xs:sequence/xs:choice" >
+            <jaxb:property name="channels" />
+        </jaxb:bindings>        
+    </jaxb:bindings>
+
+    <jaxb:bindings schemaLocation="prtg-config-1.0.xsd" node="//xs:complexType[@name='JMXParameterType']" >
+        <jaxb:bindings  node="./xs:choice" >
+            <jaxb:property name="values" />
+        </jaxb:bindings>        
+    </jaxb:bindings>
+
+    <jaxb:bindings schemaLocation="prtg-config-1.0.xsd" node="//xs:complexType[@name='ResultLookupsType']" >
+        <jaxb:bindings  node="./xs:choice" >
+            <jaxb:property name="values" />
+        </jaxb:bindings>        
+    </jaxb:bindings>
+</jaxb:bindings>

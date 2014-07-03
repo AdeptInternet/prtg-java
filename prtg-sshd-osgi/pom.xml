@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <artifactId>prtg</artifactId>
+        <groupId>org.adeptnet.prtg</groupId>
+        <version>2.0.2</version>
+    </parent>
+
+    <artifactId>prtg-sshd-osgi</artifactId>
+    <description>Adept PRTG sshd OSGI</description>
+    <packaging>bundle</packaging>
+
+    <name>prtg-sshd-osgi OSGi Bundle</name>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.osgi</groupId>
+            <artifactId>org.osgi.core</artifactId>
+            <version>4.3.0</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>prtg-sshd</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-simple</artifactId>
+            <version>1.6.6</version>
+            <scope>provided</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.felix</groupId>
+                <artifactId>maven-bundle-plugin</artifactId>
+                <version>2.3.7</version>
+                <extensions>true</extensions>
+                <configuration>
+                    <instructions>
+                        <Bundle-SymbolicName>adept-${project.artifactId}</Bundle-SymbolicName>
+                        <Bundle-Description>Adept ${project.description}</Bundle-Description>
+                        <Bundle-Activator>org.adeptnet.prtg.sshd.osgi.Activator</Bundle-Activator>
+                        <Export-Package />
+                        <Import-Package>
+                            !org.apache.bsf.*,
+                            *
+                        </Import-Package>
+                        <Private-Package>org.adeptnet.prtg.sshd.osgi.*</Private-Package>
+                    </instructions>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>wrap-dependency</id>
+                        <goals>
+                            <goal>bundle</goal>
+                        </goals>
+                        <configuration>
+                            <instructions>
+                                <Embed-Dependency>
+                                    prtg-xml,
+                                    prtg-config-xml,
+                                    prtg-sshd,
+                                    bsh
+                                </Embed-Dependency>
+                                <Embed-Transitive>true</Embed-Transitive>
+                            </instructions>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+    <profiles>
+        <profile>
+            <id>build-for-glassfish</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.felix</groupId>
+                        <artifactId>maven-bundle-plugin</artifactId>
+                        <version>2.3.7</version>
+                        <extensions>true</extensions>
+                        <configuration>
+                            <instructions>
+                                <Bundle-SymbolicName>adept-${project.artifactId}</Bundle-SymbolicName>
+                                <Bundle-Description>Adept ${project.description}</Bundle-Description>
+                                <Bundle-Activator>org.adeptnet.prtg.sshd.osgi.Activator</Bundle-Activator>
+                                <Import-Package>
+                                    !org.apache.bsf.*,
+                                    !com.jcraft.jzlib.*,
+                                    !org.apache.avalon.framework.logger.*,
+                                    !org.apache.log.*,
+                                    !org.apache.tomcat.jni.*,
+                                    !org.bouncycastle.*,
+                                    *
+                                </Import-Package>
+                                <Export-Package></Export-Package>
+                                <Private-Package>org.adeptnet.prtg.sshd.osgi.*</Private-Package>
+                            </instructions>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <id>wrap-dependency</id>
+                                <goals>
+                                    <goal>bundle</goal>
+                                </goals>
+                                <configuration>
+                                    <instructions>
+                                        <Embed-Dependency>
+                                            !junit,
+                                            !org.osgi.core
+                                        </Embed-Dependency>
+                                        <Embed-Transitive>true</Embed-Transitive>
+                                    </instructions>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+            
+        </profile>
+    </profiles>
+</project>

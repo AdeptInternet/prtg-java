@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema targetNamespace="urn:ietf:params:xml:ns:prtg-1.0"
+           xmlns:prtg="urn:ietf:params:xml:ns:prtg-1.0"
+           xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           elementFormDefault="qualified">
+
+    <!--<xs:import namespace="http://www.w3.org/XML/1998/namespace" schemaLocation="xml.xsd"/>-->
+
+    <xs:annotation>
+        <xs:documentation>
+            PRTG Schema from https://prtg.paessler.com/api.htm?tabid=7
+        </xs:documentation>
+    </xs:annotation>
+
+    <xs:element name="prtg" type="prtg:PrtgType"/>
+
+    <xs:complexType name="PrtgType">
+        <xs:sequence>
+            <xs:element name="result" type="prtg:ChannelType" minOccurs="1" maxOccurs="unbounded"/>
+            <xs:element name="error" type="prtg:BooleanType" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="text" type="prtg:ErrorMessage" minOccurs="0" maxOccurs="1"/>
+        </xs:sequence>
+        <!--<xs:attribute ref="xml:base" use="optional"/>-->
+    </xs:complexType>
+    
+    
+    <xs:complexType name="ChannelType">
+        <xs:sequence>
+            <xs:element name="channel" type="xs:token"/>
+            <xs:element name="value" type="prtg:ValuePattern"/>
+            <xs:choice>
+                <xs:element name="unit" type="prtg:UnitType"/>
+                <xs:element name="customunit" type="xs:token"/>
+                <xs:element name="speedsize" type="prtg:UnitSizeType"/>
+                <xs:element name="volumesize" type="prtg:UnitSizeType"/>
+                <xs:element name="speedtime" type="prtg:TimeType"/>
+                <xs:element name="mode" type="prtg:ModeType"/>
+                <xs:element name="float" type="prtg:BooleanType"/>
+                <xs:element name="decimalmode" type="prtg:DecimalModeType"/>
+                <xs:element name="warning" type="prtg:BooleanType"/>
+                <xs:element name="showchart" type="prtg:BooleanType"/>
+                <xs:element name="showtable" type="prtg:BooleanType"/>
+                <xs:element name="limitmaxerror" type="xs:integer"/>
+                <xs:element name="limitmaxwarning" type="xs:integer"/>
+                <xs:element name="limitminwarning" type="xs:integer"/>
+                <xs:element name="limitminerror" type="xs:integer"/>
+                <xs:element name="limiterrormsg" type="xs:token"/>
+                <xs:element name="limitwarningmsg" type="xs:token"/>
+                <xs:element name="limitmode" type="prtg:BooleanType"/>
+                <xs:element name="valuelookup" type="xs:token"/>
+            </xs:choice>
+        </xs:sequence>
+        <!--<xs:attribute ref="xml:base" use="optional"/>-->
+    </xs:complexType>
+    
+    <xs:simpleType name="ValuePattern">
+        <xs:restriction base="xs:token">
+            <xs:pattern value="([0-9]+(\.[0-9]+)?)"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="BooleanType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="0"/> 
+            <xs:enumeration value="1"/> 
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="UnitType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="BytesBandwidth"/> 
+            <xs:enumeration value="BytesMemory"/> 
+            <xs:enumeration value="BytesDisk"/> 
+            <xs:enumeration value="Temperature"/> 
+            <xs:enumeration value="Percent"/> 
+            <xs:enumeration value="TimeResponse"/> 
+            <xs:enumeration value="TimeSeconds"/> 
+            <xs:enumeration value="Custom"/> 
+            <xs:enumeration value="Count"/> 
+            <xs:enumeration value="CPU (*)"/> 
+            <xs:enumeration value="BytesFile"/> 
+            <xs:enumeration value="SpeedDisk"/> 
+            <xs:enumeration value="SpeedNet"/> 
+            <xs:enumeration value="TimeHours"/> 
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="UnitSizeType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="One"/> 
+            <xs:enumeration value="Kilo"/> 
+            <xs:enumeration value="Mega"/> 
+            <xs:enumeration value="Giga"/> 
+            <xs:enumeration value="Tera"/> 
+            <xs:enumeration value="Byte"/> 
+            <xs:enumeration value="KiloByte"/> 
+            <xs:enumeration value="MegaByte"/> 
+            <xs:enumeration value="GigaByte"/> 
+            <xs:enumeration value="TeraByte"/> 
+            <xs:enumeration value="Bit"/> 
+            <xs:enumeration value="KiloBit"/> 
+            <xs:enumeration value="MegaBit"/> 
+            <xs:enumeration value="GigaBit"/> 
+            <xs:enumeration value="TeraBit"/> 
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="TimeType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="Second"/> 
+            <xs:enumeration value="Minute"/> 
+            <xs:enumeration value="Hour"/> 
+            <xs:enumeration value="Day"/> 
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="ModeType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="Absolute"/> 
+            <xs:enumeration value="Difference"/> 
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="DecimalModeType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="Auto"/> 
+            <xs:enumeration value="All"/> 
+            <xs:enumeration value="0"/> 
+            <xs:enumeration value="1"/> 
+            <xs:enumeration value="2"/> 
+            <xs:enumeration value="3"/> 
+            <xs:enumeration value="4"/> 
+            <xs:enumeration value="5"/> 
+            <xs:enumeration value="6"/> 
+            <xs:enumeration value="7"/> 
+            <xs:enumeration value="8"/> 
+            <xs:enumeration value="9"/> 
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="ErrorMessage">
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="2000"/>            
+        </xs:restriction>
+    </xs:simpleType>
+
+</xs:schema>

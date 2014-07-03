@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema targetNamespace="urn:ietf:params:xml:ns:prtg-config-1.0"
+           xmlns:config="urn:ietf:params:xml:ns:prtg-config-1.0"
+           xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           xmlns:prtg="urn:ietf:params:xml:ns:prtg-1.0"
+           elementFormDefault="qualified">
+    
+    <xs:import namespace="urn:ietf:params:xml:ns:prtg-1.0" schemaLocation="prtg-1.0.xsd"/>
+
+    <xs:annotation>
+        <xs:documentation>
+            JMX PRTG Config Schema
+        </xs:documentation>
+    </xs:annotation>
+
+    <xs:element name="config" type="config:ConfigType"/>
+
+    <xs:complexType name="ConfigType">
+        <xs:sequence>
+            <xs:element name="jmx" type="config:JMXConfigType" minOccurs="1" maxOccurs="unbounded"/>
+            <xs:element name="sensor" type="config:SensorType" minOccurs="1" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+    
+    <xs:complexType name="JMXConfigType">
+        <xs:sequence>
+            <xs:element name="name" type="xs:token"/>
+            <xs:element name="url" type="xs:token"/>
+            <xs:element name="userName" type="xs:token"/>
+            <xs:element name="password" type="xs:token"/>
+        </xs:sequence>
+    </xs:complexType>
+    
+    <xs:complexType name="SensorType">
+        <xs:sequence>
+            <xs:element name="name" type="xs:token"/>
+            <xs:element name="jmxName" type="xs:token"/>
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
+                <xs:element name="attributeChannel" type="config:ChannelTypeAttribute" />
+                <xs:element name="operationChannel" type="config:ChannelTypeOperation" />
+                <xs:element name="scriptChannel"    type="config:ChannelTypeScript" />
+            </xs:choice>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="ChannelTypeBase">
+        <xs:complexContent>
+            <xs:extension base="prtg:ChannelType">
+                <xs:sequence>
+                    <xs:element name="createChannel" type="xs:boolean"/>
+                    <xs:element name="jmxObjectName" type="xs:token"/>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    
+    <xs:complexType name="ChannelTypeStandard">
+        <xs:complexContent>
+            <xs:extension base="config:ChannelTypeBase">
+                <xs:sequence>
+                    <xs:element name="jmxMethod" type="xs:token"/>
+                    <xs:element name="resultLookups" type="config:ResultLookupsType" minOccurs="0" maxOccurs="1"/>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="ChannelTypeAttribute">
+        <xs:complexContent>
+            <xs:extension base="config:ChannelTypeStandard">
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="ChannelTypeOperation">
+        <xs:complexContent>
+            <xs:extension base="config:ChannelTypeStandard">
+                <xs:sequence>
+                    <xs:element name="jmxParameters" type="config:JMXParameterType" minOccurs="1" maxOccurs="1"/>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="ChannelTypeScript">
+        <xs:complexContent>
+            <xs:extension base="config:ChannelTypeBase">
+                <xs:sequence>
+                    <xs:element name="jmxScript" type="xs:string"/>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="JMXParameterType">
+        <xs:choice minOccurs="0" maxOccurs="unbounded">
+            <xs:element name="string"    type="xs:string" />
+            <xs:element name="double"    type="xs:double" />
+            <xs:element name="int"       type="xs:int" />
+            <xs:element name="bigint"    type="xs:integer" />
+        </xs:choice>
+    </xs:complexType>
+
+    <xs:complexType name="ResultLookupsType">
+        <xs:choice minOccurs="0" maxOccurs="unbounded">
+            <xs:element name="value" type="config:ResultLookupType" />
+        </xs:choice>
+        <xs:attribute name="defaultValue" type="xs:int"/>
+    </xs:complexType>
+    
+    <xs:complexType name="ResultLookupType">
+        <xs:simpleContent>
+            <xs:extension base="xs:int">
+                <xs:attribute name="name" type="xs:string" />
+            </xs:extension>
+        </xs:simpleContent>
+    </xs:complexType>
+</xs:schema>
+
+
+
+

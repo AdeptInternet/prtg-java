@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <artifactId>prtg</artifactId>
+        <groupId>org.adeptnet.prtg</groupId>
+        <version>2.0.2</version>
+    </parent>
+
+    <artifactId>prtg-servlet-osgi</artifactId>
+    <description>PRTG Servlet OSGI</description>
+    <packaging>bundle</packaging>
+
+    <name>prtg-servlet-osgi OSGi Bundle</name>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.osgi</groupId>
+            <artifactId>org.osgi.core</artifactId>
+            <version>4.3.0</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>servlet-api</artifactId>
+            <version>2.5</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>prtg-config-xml</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.felix</groupId>
+                <artifactId>maven-bundle-plugin</artifactId>
+                <version>2.3.7</version>
+                <extensions>true</extensions>
+                <configuration>
+                    <instructions>
+                        <Bundle-SymbolicName>adeptnet-${project.artifactId}</Bundle-SymbolicName>
+                        <Bundle-Description>AdeptNet ${project.description}</Bundle-Description>
+                        <Bundle-Activator>org.adeptnet.prtg.servlet.osgi.Activator</Bundle-Activator>
+                        <Export-Package />
+                        <Private-Package>
+                            org.adeptnet.prtg.servlet.osgi.*,
+                        </Private-Package>
+                        <Import-Package>
+                            !org.apache.bsf.*,
+                            *
+                        </Import-Package>
+                    </instructions>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>wrap-dependency</id>
+                        <goals>
+                            <goal>bundle</goal>
+                        </goals>
+                        <configuration>
+                            <instructions>
+                                <Embed-Dependency>
+                                    prtg-xml,
+                                    prtg-config-xml,
+                                    bsh
+                                </Embed-Dependency>
+                                <Embed-Transitive>true</Embed-Transitive>
+                            </instructions>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+</project>
