@@ -263,6 +263,7 @@ public class SensorProcess {
             if ((sensorName == null) || (sensorName.isEmpty())) {
                 throw new SensorException("No parameter: name");
             }
+            LOG.info(String.format("run(): %s", sensorName));
             process();
         } catch (Throwable ex) {
             final Throwable _ex = (ex instanceof javax.xml.bind.JAXBException) ? ((javax.xml.bind.JAXBException) ex).getLinkedException() : ex;
