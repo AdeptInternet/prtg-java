@@ -23,6 +23,7 @@ import java.io.InputStream;
 import java.io.StringWriter;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
@@ -63,9 +64,9 @@ public class JaxbManager implements ErrorHandler {
         result.add(META_INF_PRTG + "prtg.xsd");
         return result;
     }
-    
+
     public InputStream getResourceAsStream(final String name) {
-        return Thread.currentThread().getContextClassLoader().getResourceAsStream(name);        
+        return Thread.currentThread().getContextClassLoader().getResourceAsStream(name);
     }
 
     public Map<String, Source> getSchemaSourcesFromResource(final List<String> schemaNames) throws SAXException {
@@ -123,16 +124,32 @@ public class JaxbManager implements ErrorHandler {
                     LOG.fine(String.format("%s LSResourceResolver - resolveResource type [%s] namespaceURI [%s] publicId [%s] systemId [%s] baseURI [%s]",
                             JaxbManager.class, type, namespaceURI, publicId, systemId, baseURI));
                 }
-                
-                if (XMLConstants.W3C_XML_SCHEMA_NS_URI.equals(type)) {
-                    systemId = META_INF_PRTG + "xml.xsd";
+
+                if (systemId == null) {
+                    if (XMLConstants.W3C_XML_SCHEMA_NS_URI.equals(type) && XMLConstants.XML_NS_URI.equals(namespaceURI)) {
+                        systemId = META_INF_PRTG + "xml.xsd";
+                    } else {
+                        try {
+                            final URI uri = new URI(namespaceURI);
+                            systemId = META_INF + uri.getPath();
+                        } catch (URISyntaxException ex) {
+                            LOG.log(Level.SEVERE, String.format("Invalid URI: %s", ex.getMessage()), ex);
+                            return null;
+                        }
+                    }
                 }
 
                 final InputStream is = getSchemaSourceFromSystemId(systemId);
                 if (is != null) {
                     final LSInput ls = new org.apache.xerces.dom.DOMInputImpl();
                     ls.setByteStream(is);
+                    if (LOG.isLoggable(Level.FINE)) {
+                        LOG.fine(String.format("returning: %s", systemId));
+                    }
                     return ls;
+                }
+                if (LOG.isLoggable(Level.FINE)) {
+                    LOG.fine("returning: NULL");
                 }
 
                 return null;
@@ -176,6 +193,9 @@ public class JaxbManager implements ErrorHandler {
 
                 final File _file1 = new File(systemId);
                 if (_file1.exists()) {
+                    if (LOG.isLoggable(Level.FINE)) {
+                        LOG.fine(String.format("returning1: %s", _file1.getAbsoluteFile().getName()));
+                    }
                     return new InputSource(new FileReader(_file1));
                 }
 
@@ -192,14 +212,23 @@ public class JaxbManager implements ErrorHandler {
                 final InputStream is = getSchemaSourceFromSystemId(path);
 
                 if (is != null) {
+                    if (LOG.isLoggable(Level.FINE)) {
+                        LOG.fine(String.format("returning2: %s", path));
+                    }
                     return new InputSource(is);
                 }
 
                 final File _file2 = new File(getBasePath(), systemId);
                 if (_file2.exists()) {
+                    if (LOG.isLoggable(Level.FINE)) {
+                        LOG.fine(String.format("returning3: %s", _file2.getAbsoluteFile().getName()));
+                    }
                     return new InputSource(new FileReader(_file2));
                 }
 
+                if (LOG.isLoggable(Level.FINE)) {
+                    LOG.fine("returning: NULL");
+                }
                 return null;
             }
 
@@ -254,7 +283,7 @@ public class JaxbManager implements ErrorHandler {
 
             @SuppressWarnings("unchecked")
             final T result = (T) _unm.unmarshal(doc.getDocumentElement());
-            
+
             if (!clazz.isInstance(result)) {
                 throw new JAXBException(String.format("fromXML(): Not assignable [%s] - [%s]", clazz.getName(), result.getClass().getName()));
             }

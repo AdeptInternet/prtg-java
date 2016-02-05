@@ -22,7 +22,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.URL;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -31,13 +30,10 @@ import java.util.regex.Pattern;
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
-import javax.xml.validation.SchemaFactory;
-import org.adeptnet.prtg.config.xml.Config;
 import org.apache.sshd.SshServer;
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
 import org.apache.sshd.server.keyprovider.SimpleGeneratorHostKeyProvider;
-import org.osgi.framework.Bundle;
 
 /**
  *

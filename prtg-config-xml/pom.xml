@@ -4,7 +4,7 @@
     <parent>
         <groupId>org.adeptnet.prtg</groupId>
         <artifactId>prtg</artifactId>
-        <version>3.0.0</version>
+        <version>3.0.1</version>
     </parent>
     <artifactId>prtg-config-xml</artifactId>
     <packaging>jar</packaging>
@@ -51,7 +51,7 @@
                             <clearOutputDir>true</clearOutputDir>
                             <schemaDirectory>${project.basedir}/src/main/resources/META-INF/prtg/</schemaDirectory>
                             <bindingDirectory>${project.basedir}/src/main/resources/META-INF/prtg/</bindingDirectory>
-                            <generateDirectory>${project.build.directory}/generated-sources/prtg</generateDirectory>
+                            <generateDirectory>${project.build.directory}/generated-sources/prtg/</generateDirectory>
                             <args>
                                 <arg>-npa</arg>
                                 <arg>-no-header</arg>
