@@ -50,7 +50,7 @@ public class PrtgCommand extends BaseCommand {
             }
             if (command.startsWith("ls ") || command.equals("ls")) {
                 try {
-                    for (SensorType sensor : getConfigInterface().getConfig().getSensors()) {
+                    for (SensorType sensor : getConfigInterface().getConfig().getSensors().getSensor()) {
                         printLine(sensor.getName());
                     }
                 } catch (JAXBException ex) {

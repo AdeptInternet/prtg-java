@@ -41,7 +41,7 @@ public class Servlet extends javax.servlet.http.HttpServlet {
 
     private String getHelp() throws JAXBException {
         final StringBuilder sb = new StringBuilder();
-        for (final SensorType sensor : configInterface.getConfig().getSensors()) {
+        for (final SensorType sensor : configInterface.getConfig().getSensors().getSensor()) {
             sb.append(String.format("URI: prtg?name=%s\n", sensor.getName()));
         }
         return sb.toString();

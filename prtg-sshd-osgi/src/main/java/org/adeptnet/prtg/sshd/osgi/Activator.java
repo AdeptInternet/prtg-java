@@ -22,6 +22,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URL;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -30,10 +31,13 @@ import java.util.regex.Pattern;
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
+import javax.xml.validation.SchemaFactory;
+import org.adeptnet.prtg.config.xml.Config;
 import org.apache.sshd.SshServer;
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
 import org.apache.sshd.server.keyprovider.SimpleGeneratorHostKeyProvider;
+import org.osgi.framework.Bundle;
 
 /**
  *
@@ -153,10 +157,10 @@ public class Activator implements BundleActivator {
         }
     }
 
-    public void startSshd() throws IOException, SensorException {
+    public void startSshd(final JaxbManager jaxb) throws IOException, SensorException {
         path = getPath();
 
-        final SshdConfigImplementation config = new SshdConfigImplementation()
+        final SshdConfigImplementation config = new SshdConfigImplementation(jaxb)
                 .withXml(getProperty(CONFIG))
                 .withUsersFile(getProperty(SSHD_AUTHORIZED_USERS))
                 .withPublicKeysFile(getProperty(SSHD_AUTHORIZED_KEYS))
@@ -195,7 +199,9 @@ public class Activator implements BundleActivator {
     @Override
     public void start(BundleContext context) throws Exception {
         LOG.log(Level.INFO, "ADEPTNET Starting: {0}", Activator.class);
-        startSshd();
+
+        final JaxbManager jaxb = new JaxbManager(context.getBundle());
+        startSshd(jaxb);
     }
 
     @Override

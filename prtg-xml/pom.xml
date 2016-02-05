@@ -4,16 +4,15 @@
     <parent>
         <groupId>org.adeptnet.prtg</groupId>
         <artifactId>prtg</artifactId>
-        <version>2.0.2</version>
+        <version>3.0.0</version>
     </parent>
     <artifactId>prtg-xml</artifactId>
     <packaging>jar</packaging>
     <dependencies>
         <dependency>
-            <artifactId>jaxb2-basics-runtime</artifactId>
-            <groupId>org.jvnet.jaxb2_commons</groupId>
-            <type>jar</type>
-            <version>0.6.5</version>
+            <groupId>xerces</groupId>
+            <artifactId>xercesImpl</artifactId>
+            <version>${apache.xerces.version}</version>
         </dependency>
     </dependencies>
     <build>
@@ -21,7 +20,7 @@
             <plugin>
                 <groupId>org.jvnet.jaxb2.maven2</groupId>
                 <artifactId>maven-jaxb2-plugin</artifactId>
-                <version>0.9.0</version>
+                <version>${maven.jaxb2.plugin.version}</version>
                 <executions>
                     <execution>
                         <id>generate-xsd-object-source</id>
@@ -32,8 +31,10 @@
                         <configuration>
                             <npa>true</npa>
                             <extension>true</extension>
+                            <catalog>${project.basedir}/src/main/resources/META-INF/prtg/prtg.config</catalog>
+                            <catalogResolver>org.jvnet.jaxb2.maven2.resolver.tools.ClasspathCatalogResolver</catalogResolver>
                             <noHeader>true</noHeader>
-                            <strict>true</strict>
+                            <strict>false</strict>
                             <extension>true</extension>
                             <enableIntrospection>true</enableIntrospection>
                             <clearOutputDir>true</clearOutputDir>
@@ -46,25 +47,18 @@
                                 <arg>-xmlschema</arg>
                                 <arg>-Xannotate</arg>
                                 <arg>-Xinject-code</arg>
-                                <arg>-XtoString</arg>
-                                <arg>-Xfluent-api</arg>
-                                <arg>-Xcopyable</arg>
+                                <arg>-Xinheritance</arg>
                             </args>
                             <plugins>
                                 <plugin>
                                     <groupId>org.jvnet.jaxb2_commons</groupId>
                                     <artifactId>jaxb2-basics</artifactId>
-                                    <version>0.6.5</version>
+                                    <version>${maven.jaxb2.basics.version}</version>
                                 </plugin>
                                 <plugin>
                                     <groupId>org.jvnet.jaxb2_commons</groupId>
                                     <artifactId>jaxb2-basics-annotate</artifactId>
-                                    <version>0.6.5</version>
-                                </plugin>
-                                <plugin>
-                                    <groupId>org.jvnet.jaxb2_commons</groupId>
-                                    <artifactId>jaxb2-fluent-api</artifactId>
-                                    <version>3.0</version>
+                                    <version>${maven.jaxb2.basics.annotate.version}</version>
                                 </plugin>
                             </plugins>
                         </configuration>
@@ -74,7 +68,12 @@
                     <dependency>
                         <groupId>org.jvnet.jaxb2_commons</groupId>
                         <artifactId>jaxb2-basics-annotate</artifactId>
-                        <version>0.6.5</version>
+                        <version>${maven.jaxb2.basics.annotate.version}</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>org.slf4j</groupId>
+                        <artifactId>slf4j-jdk14</artifactId>
+                        <version>${slf4j.version}</version>
                     </dependency>
                 </dependencies>
             </plugin>

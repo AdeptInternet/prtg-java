@@ -16,44 +16,34 @@
 package org.adeptnet.prtg.config.xml;
 
 import java.io.File;
-import java.io.StringReader;
-import java.io.StringWriter;
-import javax.xml.bind.JAXBContext;
+import java.util.List;
 import javax.xml.bind.JAXBException;
-import javax.xml.bind.Marshaller;
-import javax.xml.validation.Schema;
 
 /**
  *
  * @author Francois Steyn - Adept Internet (PTY) LTD (francois.s@adept.co.za)
  */
-public class JaxbManager {
+public class JaxbManager extends org.adeptnet.prtg.xml.JaxbManager {
 
-    @SuppressWarnings("rawtypes")
-    public static JAXBContext getJAXBContext() throws JAXBException {
-        final java.util.List<Class<?>> _knownClasses = new java.util.ArrayList<>();
-        _knownClasses.add(org.adeptnet.prtg.config.xml.Config.class);
-        _knownClasses.add(org.adeptnet.prtg.config.xml.ChannelTypeAttribute.class);
-        _knownClasses.add(org.adeptnet.prtg.config.xml.ChannelTypeOperation.class);
-        _knownClasses.add(org.adeptnet.prtg.config.xml.ChannelTypeScript.class);
-        return JAXBContext.newInstance(_knownClasses.toArray(new Class[_knownClasses.size()]));
+    public JaxbManager() {
     }
 
-    public static Config toConfig(final File file) throws JAXBException {
-        return (Config) getJAXBContext().createUnmarshaller().unmarshal(file);
+    @Override
+    public List<String> getSchemaNames() {
+        final List<String> result = super.getSchemaNames();
+        result.add(META_INF_PRTG + "prtg-config.xsd");
+        return result;
     }
 
-    public static Config toConfig(final StringReader sr) throws JAXBException {
-        return (Config) getJAXBContext().createUnmarshaller().unmarshal(sr);
+    @Override
+    public List<Class<?>> getKnownClasses() {
+        final List<Class<?>> result = super.getKnownClasses();
+        result.add(org.adeptnet.prtg.config.xml.ObjectFactory.class);
+        return result;
     }
 
-    public static String toXML(final Config config) throws JAXBException {
-        final Marshaller marshal = getJAXBContext().createMarshaller();
-        marshal.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
-        marshal.setProperty(Marshaller.JAXB_ENCODING, "UTF-8");
-        final StringWriter sw = new StringWriter();
-        marshal.marshal(config, sw);
-        return sw.toString();
+    public Config toConfig(final File file) throws JAXBException {
+        return fromXML(file, Config.class);
     }
 
 }

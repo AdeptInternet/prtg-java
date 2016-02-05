@@ -1,199 +1,211 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<config xmlns:prtg="urn:ietf:params:xml:ns:prtg-1.0" xmlns="urn:ietf:params:xml:ns:prtg-config-1.0">
-    <jmx>
-        <name>servicemixlocal</name>
-        <url>service:jmx:rmi:///jndi/rmi://localhost:1099/karaf-root</url>
-        <userName>karaf</userName>
-        <password>karaf</password>
-    </jmx>
-    <jmx>
-        <name>servicemixremote</name>
-        <url>service:jmx:rmi:///jndi/rmi://remote_host:1099/karaf-root</url>
-        <userName>karaf</userName>
-        <password>karaf</password>
-    </jmx>
-    <sensor>
-        <name>TaskQueue</name>
-        <jmxName>servicemixlocal</jmxName>
-        <attributeChannel>
-            <prtg:channel>Queue Size</prtg:channel>
-            <createChannel>true</createChannel>
-            <jmxObjectName>org.apache.activemq:type=Broker,brokerName=amq-broker,destinationType=Queue,destinationName=TaskQueue</jmxObjectName>
-            <jmxMethod>QueueSize</jmxMethod>
-        </attributeChannel>
-        <attributeChannel>
-            <prtg:channel>Consumer Count</prtg:channel>
-            <createChannel>true</createChannel>
-            <jmxObjectName>org.apache.activemq:type=Broker,brokerName=amq-broker,destinationType=Queue,destinationName=TaskQueue</jmxObjectName>
-            <jmxMethod>ConsumerCount</jmxMethod>
-        </attributeChannel>
-        <attributeChannel>
-            <prtg:channel>Producer Count</prtg:channel>
-            <createChannel>true</createChannel>
-            <jmxObjectName>org.apache.activemq:type=Broker,brokerName=amq-broker,destinationType=Queue,destinationName=TaskQueue</jmxObjectName>
-            <jmxMethod>ProducerCount</jmxMethod>
-        </attributeChannel>
-    </sensor>
+<config:config
+    xmlns:prtg="http://xml.adeptnet.org/prtg/prtg.xsd"
+    xmlns:config="http://xml.adeptnet.org/prtg/prtg-config.xsd"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:xi="http://www.w3.org/2001/XInclude"
+    xsi:schemaLocation="http://www.w3.org/XML/1998/namespace http://xml.adeptnet.org/prtg/xml.xsd
+    http://xml.adeptnet.org/prtg/prtg.xsd http://xml.adeptnet.org/prtg/prtg.xsd
+    http://xml.adeptnet.org/prtg/prtg-config.xsd http://xml.adeptnet.org/prtg/prtg-config.xsd"
+>
+    <jmxs>
+        <jmx>
+            <name>servicemixlocal</name>
+            <url>service:jmx:rmi:///jndi/rmi://localhost:1099/karaf-root</url>
+            <userName>karaf</userName>
+            <password>karaf</password>
+        </jmx>
+        <jmx>
+            <name>servicemixremote</name>
+            <url>service:jmx:rmi:///jndi/rmi://remote_host:1099/karaf-root</url>
+            <userName>karaf</userName>
+            <password>karaf</password>
+        </jmx>
+    </jmxs>
+    <sensors>
+        <sensor>
+            <name>TaskQueue</name>
+            <jmxName>servicemixlocal</jmxName>
+            <attributeChannel>
+                <channel>Queue Size</channel>
+                <createChannel>true</createChannel>
+                <jmxObjectName>org.apache.activemq:type=Broker,brokerName=amq-broker,destinationType=Queue,destinationName=TaskQueue</jmxObjectName>
+                <jmxMethod>QueueSize</jmxMethod>
+            </attributeChannel>
+            <attributeChannel>
+                <channel>Consumer Count</channel>
+                <createChannel>true</createChannel>
+                <jmxObjectName>org.apache.activemq:type=Broker,brokerName=amq-broker,destinationType=Queue,destinationName=TaskQueue</jmxObjectName>
+                <jmxMethod>ConsumerCount</jmxMethod>
+            </attributeChannel>
+            <attributeChannel>
+                <channel>Producer Count</channel>
+                <createChannel>true</createChannel>
+                <jmxObjectName>org.apache.activemq:type=Broker,brokerName=amq-broker,destinationType=Queue,destinationName=TaskQueue</jmxObjectName>
+                <jmxMethod>ProducerCount</jmxMethod>
+            </attributeChannel>
+        </sensor>
     
-    <sensor>
-        <name>TaskQueue Local</name>
-        <jmxName>servicemixLocal</jmxName>
-        <attributeChannel>
-            <prtg:channel>Queue Size</prtg:channel>
-            <prtg:unit>TimeResponse</prtg:unit>
-            <createChannel>true</createChannel>
-            <jmxObjectName>org.apache.activemq:type=Broker,brokerName=amq-broker,destinationType=Queue,destinationName=TaskQueue</jmxObjectName>
-            <jmxMethod>QueueSize</jmxMethod>
-        </attributeChannel>
-        <attributeChannel>
-            <prtg:channel>Consumer Count</prtg:channel>
-            <createChannel>true</createChannel>
-            <jmxObjectName>org.apache.activemq:type=Broker,brokerName=amq-broker,destinationType=Queue,destinationName=TaskQueue</jmxObjectName>
-            <jmxMethod>ConsumerCount</jmxMethod>
-        </attributeChannel>
-        <attributeChannel>
-            <prtg:channel>Producer Count</prtg:channel>
-            <createChannel>true</createChannel>
-            <jmxObjectName>org.apache.activemq:type=Broker,brokerName=amq-broker,destinationType=Queue,destinationName=TaskQueue</jmxObjectName>
-            <jmxMethod>ProducerCount</jmxMethod>
-        </attributeChannel>
-    </sensor>
+        <sensor>
+            <name>TaskQueue Local</name>
+            <jmxName>servicemixLocal</jmxName>
+            <attributeChannel>
+                <channel>Queue Size</channel>
+                <unit>TimeResponse</unit>
+                <createChannel>true</createChannel>
+                <jmxObjectName>org.apache.activemq:type=Broker,brokerName=amq-broker,destinationType=Queue,destinationName=TaskQueue</jmxObjectName>
+                <jmxMethod>QueueSize</jmxMethod>
+            </attributeChannel>
+            <attributeChannel>
+                <channel>Consumer Count</channel>
+                <createChannel>true</createChannel>
+                <jmxObjectName>org.apache.activemq:type=Broker,brokerName=amq-broker,destinationType=Queue,destinationName=TaskQueue</jmxObjectName>
+                <jmxMethod>ConsumerCount</jmxMethod>
+            </attributeChannel>
+            <attributeChannel>
+                <channel>Producer Count</channel>
+                <createChannel>true</createChannel>
+                <jmxObjectName>org.apache.activemq:type=Broker,brokerName=amq-broker,destinationType=Queue,destinationName=TaskQueue</jmxObjectName>
+                <jmxMethod>ProducerCount</jmxMethod>
+            </attributeChannel>
+        </sensor>
     
-    <sensor>
-        <name>Service Mix Global</name>
-        <jmxName>servicemixLocal</jmxName>
-        <scriptChannel>
-            <prtg:channel>Uptime</prtg:channel>
-            <prtg:unit>TimeSeconds</prtg:unit>
-            <createChannel>true</createChannel>
-            <jmxObjectName>java.lang:type=Runtime</jmxObjectName>
-            <jmxScript><![CDATA[
+        <sensor>
+            <name>Service Mix Global</name>
+            <jmxName>servicemixLocal</jmxName>
+            <scriptChannel>
+                <channel>Uptime</channel>
+                <unit>TimeSeconds</unit>
+                <createChannel>true</createChannel>
+                <jmxObjectName>java.lang:type=Runtime</jmxObjectName>
+                <jmxScript><![CDATA[
                     return getUptime() / 1000;
                 ]]>
-            </jmxScript>
-        </scriptChannel>
-    </sensor>
+                </jmxScript>
+            </scriptChannel>
+        </sensor>
     
-    <sensor>
-        <name>Kannel</name>
-        <jmxName>servicemixLocal</jmxName>
-        <operationChannel>
-            <prtg:channel>loadFromURL</prtg:channel>
-            <createChannel>false</createChannel>
-            <jmxObjectName>org.adeptnet.jmx.addons.kannel:type=Bean,name=bean</jmxObjectName>
-            <jmxMethod>loadFromURL</jmxMethod>
-            <jmxParameters>
-                <string>http://kannel_url:13000/status.xml</string>
-            </jmxParameters>
-        </operationChannel>
+        <sensor>
+            <name>Kannel</name>
+            <jmxName>servicemixLocal</jmxName>
+            <operationChannel>
+                <channel>loadFromURL</channel>
+                <createChannel>false</createChannel>
+                <jmxObjectName>org.adeptnet.jmx.addons.kannel:type=Bean,name=bean</jmxObjectName>
+                <jmxMethod>loadFromURL</jmxMethod>
+                <jmxParameters>
+                    <string>http://kannel_url:13000/status.xml</string>
+                </jmxParameters>
+            </operationChannel>
 
-        <scriptChannel>
-            <prtg:channel>Sent Total</prtg:channel>
-            <createChannel>true</createChannel>
-            <jmxObjectName>org.adeptnet.jmx.addons.kannel:type=Bean,name=bean</jmxObjectName>
-            <jmxScript><![CDATA[
+            <scriptChannel>
+                <channel>Sent Total</channel>
+                <createChannel>true</createChannel>
+                <jmxObjectName>org.adeptnet.jmx.addons.kannel:type=Bean,name=bean</jmxObjectName>
+                <jmxScript><![CDATA[
                   return getGateway().get("sms").get("sent").get("total");
                 ]]>
-            </jmxScript>
-        </scriptChannel>
-        <scriptChannel>
-            <prtg:channel>Sent Queued</prtg:channel>
-            <createChannel>true</createChannel>
-            <jmxObjectName>org.adeptnet.jmx.addons.kannel:type=Bean,name=bean</jmxObjectName>
-            <jmxScript><![CDATA[
+                </jmxScript>
+            </scriptChannel>
+            <scriptChannel>
+                <channel>Sent Queued</channel>
+                <createChannel>true</createChannel>
+                <jmxObjectName>org.adeptnet.jmx.addons.kannel:type=Bean,name=bean</jmxObjectName>
+                <jmxScript><![CDATA[
                   return getGateway().get("sms").get("sent").get("queued");
                 ]]>
-            </jmxScript>
-        </scriptChannel>
-        <scriptChannel>
-            <prtg:channel>Received Total</prtg:channel>
-            <createChannel>true</createChannel>
-            <jmxObjectName>org.adeptnet.jmx.addons.kannel:type=Bean,name=bean</jmxObjectName>
-            <jmxScript><![CDATA[
+                </jmxScript>
+            </scriptChannel>
+            <scriptChannel>
+                <channel>Received Total</channel>
+                <createChannel>true</createChannel>
+                <jmxObjectName>org.adeptnet.jmx.addons.kannel:type=Bean,name=bean</jmxObjectName>
+                <jmxScript><![CDATA[
                   return getGateway().get("sms").get("received").get("total");
                 ]]>
-            </jmxScript>
-        </scriptChannel>
-    </sensor>
+                </jmxScript>
+            </scriptChannel>
+        </sensor>
 
-    <sensor>
-        <name>san fans</name>
-        <jmxName>servicemixlocal</jmxName>
+        <sensor>
+            <name>san fans</name>
+            <jmxName>servicemixlocal</jmxName>
 
-        <operationChannel>
-            <prtg:channel>loadFromURL</prtg:channel>
-            <createChannel>false</createChannel>
-            <jmxObjectName>org.adeptnet.jmx.addons.snmp:type=Bean,name=bean</jmxObjectName>
-            <jmxMethod>loadFromURL</jmxMethod>
-            <jmxParameters>
-                <string>snmp:san_url:161?protocol=udp&amp;type=POLL&amp;snmpCommunity=public&amp;oids=1.3.6.1.4.1.7933.1.20.1.11.1.4.1.1.1,1.3.6.1.4.1.7933.1.20.1.11.1.4.1.1.2</string>
-            </jmxParameters>
-        </operationChannel>
+            <operationChannel>
+                <channel>loadFromURL</channel>
+                <createChannel>false</createChannel>
+                <jmxObjectName>org.adeptnet.jmx.addons.snmp:type=Bean,name=bean</jmxObjectName>
+                <jmxMethod>loadFromURL</jmxMethod>
+                <jmxParameters>
+                    <string>snmp:san_url:161?protocol=udp&amp;type=POLL&amp;snmpCommunity=public&amp;oids=1.3.6.1.4.1.7933.1.20.1.11.1.4.1.1.1,1.3.6.1.4.1.7933.1.20.1.11.1.4.1.1.2</string>
+                </jmxParameters>
+            </operationChannel>
 
-        <operationChannel>
-            <prtg:channel>Fan 1</prtg:channel>
-            <prtg:CustomUnit>RPM</prtg:CustomUnit>
-            <createChannel>true</createChannel>
-            <jmxObjectName>org.adeptnet.jmx.addons.snmp:type=Bean,name=bean</jmxObjectName>
-            <jmxMethod>asString</jmxMethod>
-            <jmxParameters>
-                <string>1.3.6.1.4.1.7933.1.20.1.11.1.4.1.1.1</string>
-            </jmxParameters>
-        </operationChannel>
+            <operationChannel>
+                <channel>Fan 1</channel>
+                <customunit>RPM</customunit>
+                <createChannel>true</createChannel>
+                <jmxObjectName>org.adeptnet.jmx.addons.snmp:type=Bean,name=bean</jmxObjectName>
+                <jmxMethod>asString</jmxMethod>
+                <jmxParameters>
+                    <string>1.3.6.1.4.1.7933.1.20.1.11.1.4.1.1.1</string>
+                </jmxParameters>
+            </operationChannel>
 
-        <operationChannel>
-            <prtg:channel>Fan 2</prtg:channel>
-            <prtg:CustomUnit>RPM</prtg:CustomUnit>
-            <createChannel>true</createChannel>
-            <jmxObjectName>org.adeptnet.jmx.addons.snmp:type=Bean,name=bean</jmxObjectName>
-            <jmxMethod>asString</jmxMethod>
-            <jmxParameters>
-                <string>1.3.6.1.4.1.7933.1.20.1.11.1.4.1.1.2</string>
-            </jmxParameters>
-        </operationChannel>
+            <operationChannel>
+                <channel>Fan 2</channel>
+                <customunit>RPM</customunit>
+                <createChannel>true</createChannel>
+                <jmxObjectName>org.adeptnet.jmx.addons.snmp:type=Bean,name=bean</jmxObjectName>
+                <jmxMethod>asString</jmxMethod>
+                <jmxParameters>
+                    <string>1.3.6.1.4.1.7933.1.20.1.11.1.4.1.1.2</string>
+                </jmxParameters>
+            </operationChannel>
         
-    </sensor>
+        </sensor>
     
-    <sensor>
-        <name>san drives</name>
-        <jmxName>servicemixlocal</jmxName>
+        <sensor>
+            <name>san drives</name>
+            <jmxName>servicemixlocal</jmxName>
 
-        <operationChannel>
-            <prtg:channel>loadFromURL</prtg:channel>
-            <createChannel>false</createChannel>
-            <jmxObjectName>org.adeptnet.jmx.addons.snmp:type=Bean,name=bean</jmxObjectName>
-            <jmxMethod>loadFromURL</jmxMethod>
-            <jmxParameters>
-                <string>snmp:san_url:161?protocol=udp&amp;type=POLL&amp;snmpCommunity=adept&amp;oids=1.3.6.1.4.1.7933.1.20.2.1.1.9.1.1,1.3.6.1.4.1.7933.1.20.2.1.1.9.1.2</string>
-            </jmxParameters>
-        </operationChannel>
+            <operationChannel>
+                <channel>loadFromURL</channel>
+                <createChannel>false</createChannel>
+                <jmxObjectName>org.adeptnet.jmx.addons.snmp:type=Bean,name=bean</jmxObjectName>
+                <jmxMethod>loadFromURL</jmxMethod>
+                <jmxParameters>
+                    <string>snmp:san_url:161?protocol=udp&amp;type=POLL&amp;snmpCommunity=adept&amp;oids=1.3.6.1.4.1.7933.1.20.2.1.1.9.1.1,1.3.6.1.4.1.7933.1.20.2.1.1.9.1.2</string>
+                </jmxParameters>
+            </operationChannel>
 
-        <operationChannel>
-            <prtg:channel>Drive 1</prtg:channel>
-            <prtg:valuelookup>prtg.standardlookups.connectionstate.stateonlineok</prtg:valuelookup>
-            <createChannel>true</createChannel>
-            <jmxObjectName>org.adeptnet.jmx.addons.snmp:type=Bean,name=bean</jmxObjectName>
-            <jmxMethod>asString</jmxMethod>
-            <jmxParameters>
-                <string>1.3.6.1.4.1.7933.1.20.2.1.1.9.1.1</string>
-            </jmxParameters>
-            <resultLookups defaultValue="0">
-                <value name="OK">1</value>
-            </resultLookups>
-        </operationChannel>
+            <operationChannel>
+                <channel>Drive 1</channel>
+                <valuelookup>prtg.standardlookups.connectionstate.stateonlineok</valuelookup>
+                <createChannel>true</createChannel>
+                <jmxObjectName>org.adeptnet.jmx.addons.snmp:type=Bean,name=bean</jmxObjectName>
+                <jmxMethod>asString</jmxMethod>
+                <resultLookups defaultValue="0">
+                    <value name="OK">1</value>
+                </resultLookups>
+                <jmxParameters>
+                    <string>1.3.6.1.4.1.7933.1.20.2.1.1.9.1.1</string>
+                </jmxParameters>
+            </operationChannel>
 
-        <operationChannel>
-            <prtg:channel>Drive 2</prtg:channel>
-            <prtg:valuelookup>prtg.standardlookups.connectionstate.stateonlineok</prtg:valuelookup>
-            <createChannel>true</createChannel>
-            <jmxObjectName>org.adeptnet.jmx.addons.snmp:type=Bean,name=bean</jmxObjectName>
-            <jmxMethod>asString</jmxMethod>
-            <jmxParameters>
-                <string>1.3.6.1.4.1.7933.1.20.2.1.1.9.1.2</string>
-            </jmxParameters>
-            <resultLookups defaultValue="0">
-                <value name="OK">1</value>
-            </resultLookups>
-        </operationChannel>
-    </sensor>    
-</config>
+            <operationChannel>
+                <channel>Drive 2</channel>
+                <valuelookup>prtg.standardlookups.connectionstate.stateonlineok</valuelookup>
+                <createChannel>true</createChannel>
+                <jmxObjectName>org.adeptnet.jmx.addons.snmp:type=Bean,name=bean</jmxObjectName>
+                <jmxMethod>asString</jmxMethod>
+                <resultLookups defaultValue="0">
+                    <value name="OK">1</value>
+                </resultLookups>
+                <jmxParameters>
+                    <string>1.3.6.1.4.1.7933.1.20.2.1.1.9.1.2</string>
+                </jmxParameters>
+            </operationChannel>
+        </sensor>   
+    </sensors> 
+</config:config>

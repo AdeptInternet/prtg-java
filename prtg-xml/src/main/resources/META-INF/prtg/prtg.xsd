@@ -1,10 +1,13 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<xs:schema targetNamespace="urn:ietf:params:xml:ns:prtg-1.0"
-           xmlns:prtg="urn:ietf:params:xml:ns:prtg-1.0"
-           xmlns:xs="http://www.w3.org/2001/XMLSchema"
-           elementFormDefault="qualified">
+<?xml version="1.0" ?>
+<xs:schema 
+    xmlns:prtg="http://xml.adeptnet.org/prtg/prtg.xsd"
+    targetNamespace="http://xml.adeptnet.org/prtg/prtg.xsd"
+    xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    elementFormDefault="unqualified"
+    attributeFormDefault="unqualified"
+>
 
-    <!--<xs:import namespace="http://www.w3.org/XML/1998/namespace" schemaLocation="xml.xsd"/>-->
+    <xs:import namespace="http://www.w3.org/XML/1998/namespace"/>
 
     <xs:annotation>
         <xs:documentation>
@@ -14,43 +17,49 @@
 
     <xs:element name="prtg" type="prtg:PrtgType"/>
 
+    <xs:complexType name="AbstractConsumerConfig" abstract="true">
+        <xs:sequence minOccurs="1" maxOccurs="1">
+            <xs:element name="name" type="xs:string" minOccurs="1" maxOccurs="1" />
+        </xs:sequence>
+        <xs:attribute ref="xml:base" use="optional"/>
+    </xs:complexType>
+    <xs:element name="Consumer" abstract="true" type="prtg:AbstractConsumerConfig" />
+
     <xs:complexType name="PrtgType">
         <xs:sequence>
             <xs:element name="result" type="prtg:ChannelType" minOccurs="1" maxOccurs="unbounded"/>
             <xs:element name="error" type="prtg:BooleanType" minOccurs="0" maxOccurs="1"/>
             <xs:element name="text" type="prtg:ErrorMessage" minOccurs="0" maxOccurs="1"/>
         </xs:sequence>
-        <!--<xs:attribute ref="xml:base" use="optional"/>-->
+        <xs:attribute ref="xml:base" use="optional"/>
     </xs:complexType>
     
     
     <xs:complexType name="ChannelType">
         <xs:sequence>
             <xs:element name="channel" type="xs:token"/>
-            <xs:element name="value" type="prtg:ValuePattern"/>
-            <xs:choice>
-                <xs:element name="unit" type="prtg:UnitType"/>
-                <xs:element name="customunit" type="xs:token"/>
-                <xs:element name="speedsize" type="prtg:UnitSizeType"/>
-                <xs:element name="volumesize" type="prtg:UnitSizeType"/>
-                <xs:element name="speedtime" type="prtg:TimeType"/>
-                <xs:element name="mode" type="prtg:ModeType"/>
-                <xs:element name="float" type="prtg:BooleanType"/>
-                <xs:element name="decimalmode" type="prtg:DecimalModeType"/>
-                <xs:element name="warning" type="prtg:BooleanType"/>
-                <xs:element name="showchart" type="prtg:BooleanType"/>
-                <xs:element name="showtable" type="prtg:BooleanType"/>
-                <xs:element name="limitmaxerror" type="xs:integer"/>
-                <xs:element name="limitmaxwarning" type="xs:integer"/>
-                <xs:element name="limitminwarning" type="xs:integer"/>
-                <xs:element name="limitminerror" type="xs:integer"/>
-                <xs:element name="limiterrormsg" type="xs:token"/>
-                <xs:element name="limitwarningmsg" type="xs:token"/>
-                <xs:element name="limitmode" type="prtg:BooleanType"/>
-                <xs:element name="valuelookup" type="xs:token"/>
-            </xs:choice>
+            <xs:element name="value" type="prtg:ValuePattern" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="unit" type="prtg:UnitType" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="customunit" type="xs:token" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="speedsize" type="prtg:UnitSizeType" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="volumesize" type="prtg:UnitSizeType" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="speedtime" type="prtg:TimeType" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="mode" type="prtg:ModeType" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="float" type="prtg:BooleanType" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="decimalmode" type="prtg:DecimalModeType" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="warning" type="prtg:BooleanType" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="showchart" type="prtg:BooleanType" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="showtable" type="prtg:BooleanType" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="limitmaxerror" type="xs:integer" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="limitmaxwarning" type="xs:integer" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="limitminwarning" type="xs:integer" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="limitminerror" type="xs:integer" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="limiterrormsg" type="xs:token" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="limitwarningmsg" type="xs:token" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="limitmode" type="prtg:BooleanType" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="valuelookup" type="xs:token" minOccurs="0" maxOccurs="1"/>
         </xs:sequence>
-        <!--<xs:attribute ref="xml:base" use="optional"/>-->
+        <xs:attribute ref="xml:base" use="optional"/>
     </xs:complexType>
     
     <xs:simpleType name="ValuePattern">

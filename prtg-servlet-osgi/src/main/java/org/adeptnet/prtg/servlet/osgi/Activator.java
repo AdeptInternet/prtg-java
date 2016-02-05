@@ -78,7 +78,7 @@ public class Activator implements BundleActivator {
             }
 
             Servlet servlet = new Servlet(
-                    new ConfigImplementation()
+                    new ConfigImplementation(new JaxbManager(context.getBundle()))
                     .withXml(getProperty(CONFIG))
             );
 

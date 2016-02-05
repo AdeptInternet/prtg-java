@@ -63,6 +63,7 @@ public class SensorProcess {
     private MBeanServerConnection mbsc;
     private Config config;
     private final ConfigInterface configInterface;
+    private org.adeptnet.prtg.xml.JaxbManager manager;
 
     public SensorProcess(final ConfigInterface configInterface) {
         this.prtg = new Prtg();
@@ -213,7 +214,7 @@ public class SensorProcess {
 
             prtg.getResult().add(
                     channel
-                    .downCast()
+                    //.downCast()
                     .withValue(result)
             );
         } catch (MalformedObjectNameException | MBeanException | AttributeNotFoundException | InstanceNotFoundException | ReflectionException | IOException | IntrospectionException ex) {
@@ -254,6 +255,13 @@ public class SensorProcess {
         }
     }
 
+    private org.adeptnet.prtg.xml.JaxbManager getManager() {
+        if (manager == null) {
+            manager = new org.adeptnet.prtg.xml.JaxbManager();
+        }
+        return manager;
+    }
+
     public String run() throws JAXBException {
         try {
             config = configInterface.getConfig();
@@ -271,7 +279,7 @@ public class SensorProcess {
             prtg.setErrorText(String.format("%s: %s", ex.getClass().getName(), _ex));
             LOG.log(Level.SEVERE, ex.getMessage(), ex);
         }
-        return org.adeptnet.prtg.xml.JaxbManager.toXML(prtg);
+        return getManager().toXML(prtg);
     }
 
 }

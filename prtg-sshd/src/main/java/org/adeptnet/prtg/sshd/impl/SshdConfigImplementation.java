@@ -26,6 +26,7 @@ import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.adeptnet.prtg.config.xml.JaxbManager;
 
 /**
  *
@@ -35,7 +36,7 @@ public class SshdConfigImplementation extends ConfigImplementation implements Ss
 
     //private static final Log LOG = LogFactory.getLog(SshdConfigImplementation.class);
     private static final Logger LOG = Logger.getLogger(SshdConfigImplementation.class.getName());
-    
+
     private String usersFile;
     private Properties users;
     private long usersModified;
@@ -43,6 +44,10 @@ public class SshdConfigImplementation extends ConfigImplementation implements Ss
     private List<String> publicKeys;
     private long publicKeysModified;
     private String prtgPathPrefix;
+
+    public SshdConfigImplementation(final JaxbManager jaxb) {
+        super(jaxb);
+    }
 
     public String getUsersFile() {
         return usersFile;
@@ -66,7 +71,7 @@ public class SshdConfigImplementation extends ConfigImplementation implements Ss
                 final File f = new File(usersFile);
                 usersModified = f.lastModified();
                 users.load(new FileInputStream(f));
-                LOG.log(Level.INFO, String.format("getUsers(): Loaded (%d) Users from (%s)",users.size(),usersFile));
+                LOG.log(Level.INFO, String.format("getUsers(): Loaded (%d) Users from (%s)", users.size(), usersFile));
             } catch (IOException ex) {
                 LOG.log(Level.SEVERE, String.format("getUsers(): %s", ex.getMessage()), ex);
             }
@@ -118,12 +123,11 @@ public class SshdConfigImplementation extends ConfigImplementation implements Ss
     public SshdConfigImplementation withXml(final String xml) {
         return (SshdConfigImplementation) super.withXml(xml);
     }
-    
+
     @Override
     public SshdConfigImplementation withJmxInitialContext(final String jmxInitialContext) {
         return (SshdConfigImplementation) super.withJmxInitialContext(jmxInitialContext);
     }
-    
 
     @Override
     public List<String> getPublicKeys() {
@@ -132,7 +136,7 @@ public class SshdConfigImplementation extends ConfigImplementation implements Ss
                 final Path path = java.nio.file.Paths.get(publicKeysFile);
                 publicKeysModified = path.toFile().lastModified();
                 publicKeys = java.nio.file.Files.readAllLines(path, Charset.defaultCharset());
-                LOG.log(Level.INFO, String.format("getPublicKeys(): Loaded (%d) Keys from (%s)",publicKeys.size(),publicKeysFile));
+                LOG.log(Level.INFO, String.format("getPublicKeys(): Loaded (%d) Keys from (%s)", publicKeys.size(), publicKeysFile));
             } catch (IOException ex) {
                 LOG.log(Level.SEVERE, String.format("getPublicKeys(): %s", ex.getMessage()), ex);
                 publicKeys = java.util.Collections.emptyList();

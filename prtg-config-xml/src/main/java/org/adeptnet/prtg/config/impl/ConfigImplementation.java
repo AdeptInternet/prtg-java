@@ -34,13 +34,18 @@ public class ConfigImplementation implements ConfigInterface {
     private String xml;
     private long xmlModified;
     private String jmxInitialContext;
+    private final JaxbManager jaxb;
+
+    public ConfigImplementation(final JaxbManager jaxb) {
+        this.jaxb = jaxb;
+    }
 
     @Override
     public Config getConfig() throws JAXBException {
         if (config == null) {
             final File f = new File(xml);
             xmlModified = f.lastModified();
-            config = JaxbManager.toConfig(f);
+            config = jaxb.toConfig(f);
             LOG.log(Level.INFO, String.format("getConfig(): Loaded config from (%s)", xml));
         } else if (xml != null) {
             final File f = new File(xml);
